@@ -1,0 +1,94 @@
+digraph G {
+
+  subgraph cluster_0 {
+    style=filled;
+    color=lightgrey;
+    node [style=filled,color=white];
+    label = "concepts_00";
+
+    s0 ->
+    "go playground" ->
+    "installation / setup" ->
+    "linux / OSX" ->
+    "gopath basics" ->
+    "info about compilation" ->
+    "static typing" ->
+    "c-like syntax" ->
+    "Garbage Collected" ->
+    e0;
+  }
+  
+  subgraph cluster_1 {
+    style=filled;
+    color=lightgrey;
+    node [style=filled,color=white];
+    label = "concepts_01";
+    
+    e0 ->
+    s1 ->
+    "run / build / install" ->
+    "Main" ->
+    "Imports" ->
+    "Variables and Declarations" ->
+    "Function Declarations" ->
+    e1;
+  }
+  
+  subgraph cluster_2 {
+    style=filled;
+    color=lightgrey;
+    node [style=filled,color=white];
+    label = "concepts_02_structs";
+
+    e1 ->
+    s2 ->
+    "Structures" ->
+    "Functions on Structures" ->
+    "Constructors" ->
+    "New" ->
+    "Fields of a Structure" ->
+    "Composition" ->
+    "Overloading" ->
+    "02 Pointers versus Values" ->
+    e2;
+  }
+
+  subgraph cluster_3 {
+    label = "Maps, Arrays and Slices";
+    style=filled;
+    color=lightgrey;
+    node [style=filled,color=white];
+
+    e2 ->
+    s3 ->
+    "Arrays" ->
+    "Slices" ->
+    "Maps" ->
+    "03 Pointers versus Values" ->
+    e3;
+  }
+
+  subgraph cluster_4 {
+    label = "Code Organization and Interfaces";
+    style=filled;
+    color=lightgrey;
+    node [style=filled,color=white];
+
+    e3 ->
+    s4 ->
+    "Packages" ->
+    "Cyclical Imports" ->
+    "Visibility" ->
+    "Package Management" ->
+    "Dependency Management" ->
+    "Interfaces" ->
+    "" ->
+    e4;
+  }
+
+  start -> s0
+  e4 -> end
+
+  start [shape=Mdiamond];
+  end [shape=Msquare];
+}

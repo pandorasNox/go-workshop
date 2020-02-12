@@ -1,0 +1,19 @@
+digraph G {
+    subgraph cluster_0 {
+        style=filled;
+        color=lightgrey;
+        #node [style=filled,color=white];
+        label = "legend";
+
+        # projects
+        "projects" [style=filled, color=purple]
+        # exercises
+        "exercises" [style=filled, color=lightblue];
+        # fill in / short / beforehand - concepts
+        "beforehand / shotend concepts" [style=filled, color=pink];
+        # concepts
+        "concepts" [style=filled, color=green];
+    }
+
+    
+}
