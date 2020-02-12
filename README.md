@@ -9,9 +9,10 @@
     - these resources where used to create this lessons / workshop
     - this lessons / whortshop won't cover everything
 - resources:
-    - playground
-    - the little book
-    - the other book
+    - [The Go Playground](https://play.golang.org/)
+    - [The Little Go Book](https://github.com/karlseguin/the-little-go-book/blob/master/en/go.md)
+    - [go by example](https://gobyexample.com/)
+    - [An Introduction to Programming in Go](https://www.golang-book.com/books/intro)
 
 
 ## idea behind
