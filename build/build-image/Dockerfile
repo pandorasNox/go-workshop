@@ -47,17 +47,18 @@ RUN apt-get update \
         github.com/cweill/gotests/... \
         golang.org/x/tools/cmd/goimports \
         golang.org/x/lint/golint \
-        golang.org/x/tools/cmd/gopls \
+        # golang.org/x/tools/cmd/gopls \
         github.com/alecthomas/gometalinter \
         honnef.co/go/tools/... \
         github.com/golangci/golangci-lint/cmd/golangci-lint \
         # golint replacement
         github.com/mgechev/revive \
         # debugger
-        github.com/derekparker/delve/cmd/dlv 2>&1
+        github.com/derekparker/delve/cmd/dlv \
+        2>&1
 
 ENV GO111MODULE on
-RUN go get golang.org/x/tools/gopls@v0.2.2
+RUN go get golang.org/x/tools/gopls@v0.3.2
 
     # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
 RUN groupadd --gid $USER_GID $USERNAME \
