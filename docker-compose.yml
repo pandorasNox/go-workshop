@@ -1,0 +1,73 @@
+version: "3.7"
+
+
+networks:
+  # backend:
+  somenetwork:
+
+
+volumes:
+  volume_vscode-extensions:
+
+
+services:
+  goenv:
+    build:
+      context: "."
+      dockerfile: ./build/build-image/Dockerfile
+      target: dev
+    user: vscode
+    hostname: goenv
+    cap_add:
+      # - ALL
+      - SYS_PTRACE
+    # cap_drop:
+    #   - NET_ADMIN
+    #   - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    #   - label:user:USER
+    #   - label:role:ROLE
+    networks:
+      somenetwork:
+        aliases:
+          - alias1${FOO:-}
+          - alias3
+    ## only supported for swarm mode
+    ## for docker-compose compatible resource limits
+    ## one has to use v2 file version
+    ## OR use 'docker-compose --compatibility'
+    ## but not all values are supported
+    ## read more: https://github.com/docker/compose/issues/4513
+    deploy:
+      resources:
+        limits:
+          # cpus: '0.2'
+          cpus: '2.0'
+          # memory: 50M
+          # amount "100M" is at least needed for e.g. `apt-get install htop`
+          memory: 1024M
+        # reservations:
+        #   cpus: '0.1'
+        #   memory: 20M
+    ports:
+      - "27080:27080"
+      - "27443:27443"
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      # - ./.vscode/extensions:/home/vscode/.vscode-server/extensions
+      - volume_vscode-extensions:/home/vscode/.vscode-server/extensions
+      - ${HOST_SSH_PRIVATE_KEY_PATH:-./certs/fake}:/secrets/ssh-private-key
+    environment:
+      # SSH_KEY_PUB_PATH:
+      SSH_KEY_PRIV_PATH: /secrets/ssh-private-key
+    entrypoint:
+      - bash
+      - -c
+      - "source /bin/ssh.dev.sh; /bin/entrypoint.dev.sh"
+      # - /bin/entrypoint.dev.sh
+      # - sleep
+      # - infinity
+      # - while :; do sleep 2073600; done
+

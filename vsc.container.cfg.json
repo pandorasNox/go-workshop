@@ -1,0 +1,9 @@
+{
+	"remoteUser": "vscode",
+	"workspaceFolder": "/workspace",
+	"extensions": [
+		"ms-vscode.go",
+		"ms-azuretools.vscode-docker",
+		"formulahendry.terminal"
+	]
+}
