@@ -19,4 +19,6 @@
 
 ## Maps
 - maps are more like the dicts, a key-value store datatype
-
+- keys are unique within a map
+- keys are hashed | hash(key) → hashed_value
+- any types is allowed where the comparison operators `==` and `!=` are fully defined
