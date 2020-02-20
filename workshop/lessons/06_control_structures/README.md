@@ -1,5 +1,8 @@
 # Control Structures
 
+## blocks
+- {} can be used to create isolated block skope
+
 ## loops (for)
 - two types
     - `for i`
@@ -14,3 +17,15 @@
 
 ## switch
 - `switch typeX`
+
+## labels
+- break statement
+  - switch, for loops
+  - label optional
+- continue statement
+  - for loops
+  - label optional
+- goto statement
+  - function scope, anonymous functions are excluded from scope
+  - used to move execution to the labeled statement
+  - label IS required
