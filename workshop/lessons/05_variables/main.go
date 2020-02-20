@@ -1,7 +1,11 @@
 package main
 
-import (
-	"fmt"
+import "fmt"
+
+const (
+	d = 5
+	e = 10
+	f = 15
 )
 
 func main() {
