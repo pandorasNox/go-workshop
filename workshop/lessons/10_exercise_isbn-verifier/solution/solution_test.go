@@ -1,5 +1,9 @@
 package main
 
+import (
+	"testing"
+)
+
 // Source: exercism/problem-specifications
 // Commit: 3134243 isbn-verifier: Crafted input to catch more incorrect algorithms (#1255)
 // Problem Specifications Version: 2.7.0
@@ -26,4 +30,24 @@ var testCases = []struct {
 	{"134456729", false, "input is 9 characters"},
 	{"3132P34035", false, "invalid characters are not ignored"},
 	{"98245726788", false, "input is too long but contains a valid isbn"},
+}
+
+func TestIsValidISBN(t *testing.T) {
+	for _, test := range testCases {
+		observed := IsValidISBN(test.isbn)
+		if observed == test.expected {
+			t.Logf("PASS: %s", test.description)
+		} else {
+			t.Errorf("FAIL: %s\nIsValidISBN(%q)\nExpected: %t, Actual: %t",
+				test.description, test.isbn, test.expected, observed)
+		}
+	}
+}
+
+func BenchmarkIsValidISBN(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		for _, n := range testCases {
+			IsValidISBN(n.isbn)
+		}
+	}
 }
