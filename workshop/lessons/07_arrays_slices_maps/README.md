@@ -9,6 +9,7 @@
     - type is `[5]int`, where `5` is part of the type
 - set values by index
   - `a[4] = 100`
+  - `v := a[5]`
 
 ### Slices
 - slices are more like the classic arrays you might know from interpreded languages
@@ -16,6 +17,10 @@
 - uses array as underlying type + header + some magic
 - works mostly the same as arrays
 - adding to arrays with `append` function
+- - e.g. `var a []int`
+- set values by index
+  - `a[4] = 100`
+  - `v := a[5]`
 
 ## Maps
 - maps are more like the dicts, a key-value store datatype
