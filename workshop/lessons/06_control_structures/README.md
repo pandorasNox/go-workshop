@@ -1,7 +1,7 @@
 # Control Structures
 
 ## blocks
-- {} can be used to create isolated block skope
+- {} can be used to create isolated block scope
 
 ## loops (for)
 - two types
