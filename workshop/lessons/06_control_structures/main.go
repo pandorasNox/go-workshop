@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
 
@@ -54,10 +52,9 @@ func main() {
 		}
 	}
 
-	//switch
+	// switch
 
 	for i := 1; i <= 10; i++ {
-		fmt.Println(i)
 		switch i {
 		case 0:
 			fmt.Println("Zero")
@@ -73,17 +70,60 @@ func main() {
 		default:
 			fmt.Println("Unknown Number")
 		}
+
+		fmt.Println(i, " after switch")
 	}
 
-	//labels
+	for i := 1; i <= 10; i++ {
+		if i%2 == 0 {
+			fmt.Println("divisible by 2:", i)
+		} else if i%3 == 0 {
+			fmt.Println("divisible by 3:", i)
+		} else if i%4 == 0 {
+			//dead code example, not captured by compiler
+			fmt.Println("divisible by 4:", i)
+		}
+
+		switch true {
+		case i%2 == 0:
+			fmt.Println("divisible by 2:", i)
+		case i%3 == 0:
+			fmt.Println("divisible by 3:", i)
+		case i%4 == 0:
+			//dead code example, not captured by compiler
+			fmt.Println("divisible by 4:", i)
+		}
+
+		switch {
+		case i%2 == 0:
+			fmt.Println("divisible by 2:", i)
+		case i%3 == 0:
+			fmt.Println("divisible by 3:", i)
+		case i%4 == 0:
+			//dead code example, not captured by compiler
+			fmt.Println("divisible by 4:", i)
+		}
+
+		switch 0 {
+		case i % 2:
+			fmt.Println("divisible by 2:", i)
+		case i % 3:
+			fmt.Println("divisible by 3:", i)
+		case i % 4:
+			fmt.Println("divisible by 4:", i)
+		}
+	}
+
+	// labels
 
 	//breake statement
 	fmt.Println("")
 	fmt.Println("breake statement:")
 Loop:
 	for i := 0; i < 100; i++ {
+		fmt.Printf("i=%v\n", i)
 		for j := 0; j < 2; j++ {
-			fmt.Printf("i=%v, j=%v\n", i, j)
+			fmt.Printf("i=%v, j=%d\n", i, j)
 			if i == 2 {
 				break Loop
 			}

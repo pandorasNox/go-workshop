@@ -8,7 +8,6 @@
     - `for i`
     - `for range`
 
-
 ## If
 - types
     - `if`
@@ -17,6 +16,7 @@
 
 ## switch
 - `switch typeX`
+- switch true
 
 ## labels
 - break statement
