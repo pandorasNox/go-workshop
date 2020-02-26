@@ -3,9 +3,10 @@ package main
 import "fmt"
 
 const (
-	d = 5
-	e = 10
-	f = 15
+	d    int8 = 5
+	e         = 10
+	f         = 15
+	bars      = "string"
 )
 
 func main() {
@@ -36,9 +37,10 @@ func main() {
 
 	//shorthand
 	var (
-		a = 5
-		b = 10
-		c = 15
+		a   int8 = 5
+		b        = 10
+		c        = 15
+		foo      = "string"
 	)
-	fmt.Println("a, b, c:", a, b, c)
+	fmt.Println("a, b, c:", a, b, c, foo)
 }
