@@ -10,5 +10,8 @@ func main() {
 
 // IsValidISBN returns ...
 func IsValidISBN(isbn string) bool {
+	if isbn == "" {
+		return false
+	}
 	return false
 }
