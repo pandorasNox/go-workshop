@@ -5,6 +5,12 @@ import (
 	"reflect"
 )
 
+//Vertex ...
+type Vertex struct {
+	X int
+	Y int
+}
+
 func main() {
 	// arrays
 	var foo [5]int
@@ -63,6 +69,18 @@ func main() {
 	y[156] = 79869
 	fmt.Println(y)
 	fmt.Println(y[156])
+
+	// structs
+
+	v := Vertex{1, 2}
+	v.X = 4
+	fmt.Println(v.X)
+
+	v1 := Vertex{1, 2} // has type Vertex
+	v2 := Vertex{X: 1} // Y:0 is implicit
+	v3 := Vertex{}     // X:0 and Y:0
+	p := &Vertex{1, 2} // has type *Vertex
+	fmt.Println(v1, v2, v3, p)
 }
 
 func printSlice(s []int) {
