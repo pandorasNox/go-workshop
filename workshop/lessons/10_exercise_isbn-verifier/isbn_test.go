@@ -13,6 +13,8 @@ func TestIsValidISBN(t *testing.T) {
 	}{
 		{"valid", args{"3-598-21508-8"}, true},
 		{"valid with X", args{"3-598-21507-X"}, true},
+		{"valid with less -", args{"3-59821507-X"}, true},
+		{"valid with no -", args{"123456789X"}, true},
 
 		{"invalid length", args{""}, false},
 		{"invalid length", args{"no isbn"}, false},
