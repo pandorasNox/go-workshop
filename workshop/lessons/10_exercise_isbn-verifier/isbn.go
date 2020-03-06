@@ -13,5 +13,10 @@ func IsValidISBN(isbn string) bool {
 	if isbn == "" {
 		return false
 	}
-	return false
+
+	if len(isbn) > 10 {
+		return false
+	}
+
+	return true
 }
