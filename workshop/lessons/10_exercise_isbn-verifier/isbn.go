@@ -1,7 +1,6 @@
 package main
 
 import (
-	"math"
 	"strconv"
 	"strings"
 	"unicode"
@@ -17,29 +16,34 @@ func IsValidISBN(isbn string) bool {
 	// remove all '-'
 	isbn = strings.Replace(isbn, "-", "", -1)
 
+	isbnRunes := []rune(isbn)
+
 	//check length == 10
-	if len(isbn) != 10 {
+	if len(isbnRunes) != 10 {
 		return false
 	}
 
 	//check every char (without checking the last) isDigit
-	for i := 0; i < 9; i++ {
-		charByte := isbn[i]
-		if !unicode.IsDigit(rune(charByte)) {
+	for i, isbnRune := range isbnRunes {
+		if i == len(isbnRunes)-1 {
+			break
+		}
+
+		if !unicode.IsDigit(isbnRune) {
 			return false
 		}
 	}
 
 	// check last char is digit or x
-	last := isbn[len(isbn)-1]
-	if !(unicode.IsDigit(rune(last)) || last == 'X') {
+	last := isbnRunes[len(isbnRunes)-1]
+	if !(unicode.IsDigit(last) || last == 'X' || last == 'x') {
 		return false
 	}
 
 	//transform isbn toNumeric representation
 	var numericISBN [10]int
-	for i, v := range isbn {
-		if i == 9 && v == 'X' {
+	for i, v := range isbnRunes {
+		if i == len(isbnRunes)-1 && (v == 'X' || v == 'x') {
 			numericISBN[i] = 10
 			continue
 		}
@@ -59,7 +63,7 @@ func IsValidISBN(isbn string) bool {
 			betweenResult = betweenResult + numericISBN[i]
 			continue
 		}
-		betweenResult = betweenResult + (numericISBN[i] * int(math.Abs(float64(i)-10)))
+		betweenResult = betweenResult + (numericISBN[i] * (10 - i))
 	}
 
 	result := betweenResult % 11

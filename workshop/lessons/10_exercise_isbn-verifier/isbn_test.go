@@ -11,7 +11,7 @@ var testCases = []struct {
 	{"12", false, "invalid isbn - too short"},
 	{"123456789", false, "invalid isbn - less than 10 characters"},
 	{"123-456-789", false, "invalid isbn - less than 10 characters, with dashes"},
-	{"3-598-21507-x", false, "invalid isbn - small letter"},
+	{"3-598-21507-x", true, "valid isbn - small letter"},
 	{"123456789X", true, "invalid isbn"},
 	{"0-8436-1072-7", true, "valid isbn"},
 	{"3-598-21508-9", false, "invalid isbn - check digit"},
