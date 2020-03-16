@@ -45,8 +45,8 @@ func TestIsValidISBN(t *testing.T) {
 		// {"0-306-40615-2", true, "valid isbn - just numbers"},
 		// {"3-598-21507-A", false, "check digit is a character other than X"},
 
-		//thomas
-
+		//special case
+		// {"invalid with not allowed runes", args{"3A-5B9C8D-2E1F5G07-X"}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
