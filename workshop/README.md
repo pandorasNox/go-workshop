@@ -9,10 +9,12 @@
     - these resources where used to create this lessons / workshop
     - this lessons / whortshop won't cover everything
 - resources:
+    - [The Go Tour](https://tour.golang.org/)
     - [The Go Playground](https://play.golang.org/)
     - [The Little Go Book](https://github.com/karlseguin/the-little-go-book/blob/master/en/go.md)
     - [go by example](https://gobyexample.com/)
     - [An Introduction to Programming in Go](https://www.golang-book.com/books/intro)
+    - [effective go - for deep diving](https://golang.org/doc/effective_go.html)
 
 
 ## idea behind
@@ -51,6 +53,8 @@
 
 
 ## lessons
+about go ->
+
 go tooling ->
 
 applications vs libraries ->
@@ -58,8 +62,6 @@ applications vs libraries ->
 main package / function ->
 
 imports + hello world ->
-
-(fst type e.g. int -> functions -> tests ->)
 
 datatypes ->
 
@@ -69,16 +71,22 @@ int ->
 float ->
 bool ->
 
+functions ->
+tests ->
+
 complex types ->
 arrays ->
 slices ->
 maps ->
 structs ->
 
+functions 2 ->
+tests 2 ->
+
 packages ->
 module/modules ->
-functions ->
-tests ->
+functions 3 ->
+tests 3 ->
 public funcs ->
 private funcs ->
 import packages ->
