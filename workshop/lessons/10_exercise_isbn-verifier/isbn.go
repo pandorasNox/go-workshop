@@ -13,6 +13,11 @@ func main() {
 
 // IsValidISBN returns ...
 func IsValidISBN(isbn string) bool {
+	// return isValidISBNLong(isbn)
+	return IsValidISBNShort(isbn)
+}
+
+func isValidISBNLong(isbn string) bool {
 	// remove all '-'
 	isbn = strings.Replace(isbn, "-", "", -1)
 
@@ -64,6 +69,57 @@ func IsValidISBN(isbn string) bool {
 			continue
 		}
 		betweenResult = betweenResult + (numericISBN[i] * (10 - i))
+	}
+
+	result := betweenResult % 11
+
+	return result == 0
+}
+
+func IsValidISBNShort(isbn string) bool {
+	// remove all '-'
+	isbn = strings.Replace(isbn, "-", "", -1)
+
+	isbnRunes := []rune(isbn)
+
+	//check length == 10
+	if len(isbnRunes) != 10 {
+		return false
+	}
+
+	//check first 9 runes are digits, last rune is digit or 'x' or 'X'
+	//also transform isbn to numeric representation
+	//also check numeric isbn logic is valid
+	var betweenResult int = 0
+	for i, isbnRune := range isbnRunes {
+		if i == len(isbnRunes)-1 {
+			if unicode.IsDigit(isbnRune) {
+				num, err := strconv.Atoi(string(isbnRune))
+				if err != nil {
+					return false
+				}
+				betweenResult = betweenResult + num
+				continue
+			}
+
+			if isbnRune == 'X' || isbnRune == 'x' {
+				betweenResult = betweenResult + 10
+				continue
+			}
+
+			return false
+		}
+
+		if !unicode.IsDigit(isbnRune) {
+			return false
+		}
+
+		numeric, err := strconv.Atoi(string(isbnRune))
+		if err != nil {
+			return false
+		}
+
+		betweenResult = betweenResult + (numeric * (10 - i))
 	}
 
 	result := betweenResult % 11
