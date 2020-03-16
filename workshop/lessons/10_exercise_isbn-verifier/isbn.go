@@ -2,13 +2,29 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"regexp"
 	"strconv"
 )
 
 func main() {
 	// fmt.Println(IsValidISBN("3-598-21508-8"))
-	fmt.Println(IsValidISBN("3-598-21508-X"))
+	// fmt.Println(IsValidISBN("3-598-21508-X"))
+
+	argsWithoutExecutable := os.Args[1:]
+
+	// if len(argsWithoutExecutable) > 1 {
+	// 	fmt.Errorf()
+	// }
+
+	// arg := os.Args[3]
+
+	// fmt.Println(argsWithProg)
+	fmt.Println(argsWithoutExecutable)
+	// fmt.Println(arg)
+
+	// s := "ab"
+	// fmt.Println(s[1])
 
 }
 
