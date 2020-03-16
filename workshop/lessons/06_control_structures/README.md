@@ -7,6 +7,8 @@
 - two types
     - `for i`
     - `for range`
+- semicolons only in places such as for loop clauses
+  - separate the initializer, condition, and continuation elements
 
 ## If
 - types
