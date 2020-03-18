@@ -6,11 +6,25 @@ import (
 
 func main() {
 	// var x [3]string = [3]string{"hello", "to", "world"}
-	x := [3]string{"hello", "to", "world"}
+	s := [3]string{"hello", "to", "world"}
 	var y string = "hello"
 	fmt.Println("eggs", "chocolate", "bananas")
-	fmt.Println(x, y)
+	fmt.Println(s, y)
 
-	x[2] = "africa"
-	fmt.Println(x)
+	s[2] = "africa"
+	fmt.Println(s)
+	intList()
+	fmt.Println(fetchList())
+
+}
+
+func intList() {
+	z := [5]int{1, 2, 3, 4, 5}
+	fmt.Println(z)
+
+}
+
+func fetchList() [5]int {
+	z := [5]int{5, 4, 3, 2, 1}
+	return z
 }
