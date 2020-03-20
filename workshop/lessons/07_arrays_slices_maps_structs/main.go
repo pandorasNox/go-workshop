@@ -52,6 +52,29 @@ func main() {
 		}
 	}
 	fmt.Println("2d: ", twoD)
+	fmt.Println("")
+
+	//slicing
+
+	// A slice can also be formed by "slicing" an existing slice or array.
+	// Slicing is done by specifying a half-open range
+	// with two indices separated by a colon. For example, the expression b[1:4]
+	// creates a slice including elements 1 through 3 of b
+	// (the indices of the resulting slice will be 0 through 2).
+	//
+	// The start and end indices of a slice expression are optional;
+	// they default to zero and the slice's length
+	fmt.Println("slicing:")
+	b := []byte{'g', 'o', 'l', 'a', 'n', 'g'}
+	c := b[1:4]
+	fmt.Println("b: ", b, &b)
+	fmt.Println("b[1:4]: ", c, &c)
+	fmt.Println("b[:]: ", b[:])
+	fmt.Println("b[:4]: ", b[:4])
+	fmt.Println("b[2:]: ", b[2:])
+	fmt.Println("b[:6]: ", b[:6]) //no error, although index 6 doesn't exist
+	// fmt.Println("b[:4]: ", b[:7]) //runtime error, slice bounds out of range [:7] with capacity 6
+	fmt.Println("")
 
 	//maps
 
