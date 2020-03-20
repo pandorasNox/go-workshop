@@ -7,6 +7,10 @@ import (
 	"strconv"
 )
 
+//go run isbn.go "3-598-21508-8"
+//
+//given: "3-598-21508-8"
+//is isbn: true
 func main() {
 	// fmt.Println(IsValidISBN("3-598-21508-8"))
 	// fmt.Println(IsValidISBN("3-598-21508-X"))

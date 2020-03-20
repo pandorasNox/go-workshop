@@ -9,6 +9,26 @@ import (
 	"unicode"
 )
 
+// func main() {
+// 	// fmt.Println(IsValidISBN("3-598-21508-8"))
+// 	// fmt.Println(IsValidISBN("3-598-21508-X"))
+
+// 	argsWithoutExecutable := os.Args[1:]
+
+// 	if len(argsWithoutExecutable) == 0 {
+// 		log.Fatalln("missing argument(s)")
+// 	}
+
+// 	if len(argsWithoutExecutable) != 1 {
+// 		log.Fatalln("to manny arguments")
+// 	}
+
+// 	maybeISBN := argsWithoutExecutable[0]
+
+// 	fmt.Printf("given: \"%s\"\n", maybeISBN)
+// 	fmt.Println("is isbn:", IsValidISBN(maybeISBN))
+// }
+
 func main() {
 	fmt.Println(IsValidISBN("3-598-21508-8"))
 }
