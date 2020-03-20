@@ -2,6 +2,8 @@ package main
 
 import (
 	//"bufio"
+
+	"bufio"
 	"encoding/csv"
 	"fmt"
 	"io"
@@ -17,19 +19,34 @@ func main() {
 	}
 
 	// Parse the file
-	r := csv.NewReader(csvfile)
-	//r := csv.NewReader(bufio.NewReader(csvfile))
+	// r := csv.NewReader(csvfile)
+	r := csv.NewReader(bufio.NewReader(csvfile))
 
 	// Iterate through the records
-	for {
+	// for {
+	// 	// Read each record from csv
+	// 	record, err := r.Read()
+	// 	if err == io.EOF {
+	// 		break
+	// 	}
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	fmt.Printf(record[0], record[1])
+	// }
+
+	err = nil
+	for record, err := r.Read(); err == nil; record, err = r.Read() {
 		// Read each record from csv
-		record, err := r.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf(record[0], record[1])
+		fmt.Println(record)
+		// fmt.Printf(record[0], record[1])
 	}
+	// if err == io.EOF {
+	// 	break
+	// }
+	if err == io.EOF {
+		log.Fatal(err)
+	}
+
+	fmt.Println("finish")
 }
