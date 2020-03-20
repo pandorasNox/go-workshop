@@ -1,7 +1,9 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"log"
 	"os"
 	"regexp"
 	"strconv"
@@ -15,7 +17,22 @@ func main() {
 	// fmt.Println(IsValidISBN("3-598-21508-8"))
 	// fmt.Println(IsValidISBN("3-598-21508-X"))
 
-	argsWithoutExecutable := os.Args[1:]
+	callArgs := os.Args[1:]
+
+	// if len(callArgs) != 1 {
+	// 	log.Fatal("Argument count mismatch")
+	// }
+
+	f := flag.Bool("f", false, "Input argument is a CSV file")
+	flag.Parse()
+	log.Println(*f)
+
+	if *f {
+		log.Println("input is a file")
+	}
+
+	//	if (flag.)
+	isbnInput := callArgs[0]
 
 	// if len(argsWithoutExecutable) > 1 {
 	// 	fmt.Errorf()
@@ -24,12 +41,12 @@ func main() {
 	// arg := os.Args[3]
 
 	// fmt.Println(argsWithProg)
-	fmt.Println(argsWithoutExecutable)
+	fmt.Printf("given: %s\n", isbnInput)
+	fmt.Printf("is valid ISBN: %v", IsValidISBN(isbnInput))
 	// fmt.Println(arg)
 
 	// s := "ab"
 	// fmt.Println(s[1])
-
 }
 
 // IsValidISBN returns ...
