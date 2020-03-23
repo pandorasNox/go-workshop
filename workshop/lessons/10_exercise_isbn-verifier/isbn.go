@@ -1,38 +1,76 @@
 package main
 
 import (
+	"bufio"
+	"encoding/csv"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"regexp"
 	"strconv"
 )
 
+//v1
 //go run isbn.go "3-598-21508-8"
 //
 //given: "3-598-21508-8"
 //is isbn: true
+//
+//v2
+//go run isbn.go -f /path/to/file
+//
+//input
+//3-598-21508-8
+//3-598-21508-8
+//3-598-21508-8
+//
+//output:
+//isbn; is valid;
+//3-598-21508-8; true
+//3-598-21508-8; true
+//3-598-21508-8; true
+//
 func main() {
-	// fmt.Println(IsValidISBN("3-598-21508-8"))
-	// fmt.Println(IsValidISBN("3-598-21508-X"))
-
-	callArgs := os.Args[1:]
-
-	// if len(callArgs) != 1 {
-	// 	log.Fatal("Argument count mismatch")
-	// }
-
 	f := flag.Bool("f", false, "Input argument is a CSV file")
 	flag.Parse()
-	log.Println(*f)
 
-	if *f {
-		log.Println("input is a file")
+	if flag.NArg() != 1 {
+		log.Fatal("Argument count mismatch")
+	}
+
+	if !*f {
+		isbnInput := flag.Arg(0)
+		fmt.Printf("%s: %v\n", isbnInput, IsValidISBN(isbnInput))
+		return
+	}
+
+	csvfile, err := os.Open(flag.Arg(0))
+	if err != nil {
+		log.Fatalln("Couldn't open the csv file", err)
+	}
+
+	// Parse the file
+	// r := csv.NewReader(csvfile)
+	r := csv.NewReader(bufio.NewReader(csvfile))
+
+	for {
+		// Read each record from csv
+		record, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		isbnInput := record[0]
+		fmt.Printf("%s: %v\n", isbnInput, IsValidISBN(isbnInput))
+
 	}
 
 	//	if (flag.)
-	isbnInput := callArgs[0]
+	// isbnInput := flag.Arg(0)
 
 	// if len(argsWithoutExecutable) > 1 {
 	// 	fmt.Errorf()
@@ -41,8 +79,8 @@ func main() {
 	// arg := os.Args[3]
 
 	// fmt.Println(argsWithProg)
-	fmt.Printf("given: %s\n", isbnInput)
-	fmt.Printf("is valid ISBN: %v", IsValidISBN(isbnInput))
+	// fmt.Printf("given: %s\n", isbnInput)
+	// fmt.Printf("is valid ISBN: %v", IsValidISBN(isbnInput))
 	// fmt.Println(arg)
 
 	// s := "ab"
