@@ -23,29 +23,16 @@ func main() {
 	r := csv.NewReader(bufio.NewReader(csvfile))
 
 	// Iterate through the records
-	// for {
-	// 	// Read each record from csv
-	// 	record, err := r.Read()
-	// 	if err == io.EOF {
-	// 		break
-	// 	}
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// 	fmt.Printf(record[0], record[1])
-	// }
-
-	err = nil
-	for record, err := r.Read(); err == nil; record, err = r.Read() {
+	for {
 		// Read each record from csv
-		fmt.Println(record)
-		// fmt.Printf(record[0], record[1])
-	}
-	// if err == io.EOF {
-	// 	break
-	// }
-	if err == io.EOF {
-		log.Fatal(err)
+		record, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf(record[0], record[1])
 	}
 
 	fmt.Println("finish")

@@ -8,7 +8,15 @@ which returns the same ISBN and if it's a valid ISBN-10.
 Acceptance criteria
 - can run it via cli
 - can pass an ISBN string
-- returns to std.in the isbn and if it's valid accoring to ISBN-10
+- returns to std.out the isbn and if it's valid accoring to ISBN-10
+
+### exampe
+`go run main.go "3-598-21507-X"`
+
+returns
+```
+the given isbn '3-598-21507-X' is: valid
+```
 
 ### questions
 - What is the first thing to do?
@@ -17,10 +25,10 @@ Acceptance criteria
 - ???
 
 ### 1.1 subtask
-- write a test
+- write a test for the IsValidISBN function
 
 ### 1.2 subtask
-- write a function which accepts as input a string
+- implement the IsValidISBN function
 - returns true for valid ISBN-10
 - your test is passing
 
