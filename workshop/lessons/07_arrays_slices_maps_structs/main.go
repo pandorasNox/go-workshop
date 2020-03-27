@@ -5,19 +5,22 @@ import (
 	"reflect"
 )
 
-//Vertex ...
-type Vertex struct {
-	X int
-	Y int
+func main() {
+	// arrayExample()
+	// sliceExample()
+	// slicingExample()
+	// mapsExample()
+	// structsExample()
 }
 
-func main() {
-	// arrays
+func arrayExample() {
 	var foo [5]int
 	fmt.Println("type is: " + reflect.TypeOf(foo).String())
 	// printSlice(foo) //=> error, cannot use foo (type [5]int) as type []int
 	fmt.Println("")
+}
 
+func sliceExample() {
 	// slices - make
 
 	aSlice := make([]int, 3, 6)
@@ -53,6 +56,9 @@ func main() {
 	}
 	fmt.Println("2d: ", twoD)
 	fmt.Println("")
+}
+
+func slicingExample() {
 
 	//slicing
 
@@ -75,7 +81,9 @@ func main() {
 	fmt.Println("b[:6]: ", b[:6]) //no error, although index 6 doesn't exist
 	// fmt.Println("b[:4]: ", b[:7]) //runtime error, slice bounds out of range [:7] with capacity 6
 	fmt.Println("")
+}
 
+func mapsExample() {
 	//maps
 
 	// var x map[string]int // runtime error
@@ -93,16 +101,33 @@ func main() {
 	fmt.Println(y)
 	fmt.Println(y[156])
 
+}
+
+//Vertex ...
+type Point struct {
+	X int
+	Y int
+}
+type address struct {
+	nr   int
+	name string
+}
+
+//v := Point{X: 5}
+func structsExample() {
 	// structs
 
-	v := Vertex{1, 2}
+	// v := Point{5, 6, address{5, "foo"}}
+	v := Point{5, 6}
+	fmt.Println(v)
 	v.X = 4
+	fmt.Println(v)
 	fmt.Println(v.X)
 
-	v1 := Vertex{1, 2} // has type Vertex
-	v2 := Vertex{X: 1} // Y:0 is implicit
-	v3 := Vertex{}     // X:0 and Y:0
-	p := &Vertex{1, 2} // has type *Vertex
+	v1 := Point{1, 2} // has type Point
+	v2 := Point{X: 1} // Y:0 is implicit
+	v3 := Point{}     // X:0 and Y:0
+	p := &Point{1, 2} // has type *Point
 	fmt.Println(v1, v2, v3, p)
 }
 

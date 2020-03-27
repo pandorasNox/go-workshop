@@ -27,3 +27,19 @@
 - keys are unique within a map
 - keys are hashed | hash(key) → hashed_value
 - any types is allowed where the comparison operators `==` and `!=` are fully defined
+
+## Structs
+- in golang there are no classes, but there are structs
+- structs are like
+  - json objects known from javascript
+  - ...
+- are (mostly) the way to go to define new convoluted types in golang
+- are a composite data type
+- structs have a (from you) defined amount of static fields (unlike maps which allow any key)
+- the keys are typed and can hold a value
+- fields are accessed using a dot, e.g. `nameOftheStruct.nameOfTheField`
+- todo: pointer to structs
+
+## todo
+- open questions
+  - maps vs capacity?????
