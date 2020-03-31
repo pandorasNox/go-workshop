@@ -4,10 +4,12 @@ e.g.
 in1 in2 outInt,outErr
 “ABC” “ABC” 0
 “ABC” “AAA” 2
-“AB” “ABC” -1, error
-“ABC” “AB” -1, error
+“AB” “ABC” 0 (default zero value of int), error
+“ABC” “AB” 0 (default zero value of int), error
+“A” “ABÜ” 0 (default zero value of int), error
 “ABC” “ABB” 1
 “ABC” “ABD” 1
+“ABC” “ABÜ” 1, nil
 “” “” 0
 
 ## testing
