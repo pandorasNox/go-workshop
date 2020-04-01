@@ -1,14 +1,38 @@
 package main
+
 import (
 	"fmt"
 	"reflect"
 )
+
 func main() {
 	//stringExampleOne()
-	var sli := []int{1,2,3}
-	for i,v := range sli {
+	runeExample()
+}
+
+func runeExample() {
+	// fmt.Println("Hello")
+	// str := "Üey"
+	//fmt.Println(str[0], str[1], "'"+string(str[0])+"'")
+
+	//rune is an alias for int32
+	//casting rune (casting in32)
+	//into a string => gives bac the unicode char/string
+	//rune represents the start int number of the unicode character
+	// ru := rune(177)
+	// fmt.Println("rune:", ru, reflect.TypeOf(ru))
+	// ru2 := 'Ü'
+	// fmt.Println("rune:", ru2, string(ru2), reflect.TypeOf(ru2))
+
+	str2 := "Üey1"
+	for i, singleRune := range str2 {
+		if singleRune == '1' {
+			fmt.Println("HIT")
+		}
+		fmt.Printf("index: %d | rune: %v,%s\n", i, singleRune, string(singleRune))
 	}
 }
+
 func stringExampleOne() {
 	s := "hey"
 	fmt.Println(s[0], reflect.TypeOf(s[0]))
