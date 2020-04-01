@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"os"
 	"os/exec"
 	"strings"
 	"testing"
@@ -64,19 +66,63 @@ func TestIsValidISBN(t *testing.T) {
 func TestCli(t *testing.T) {
 	// content validation for single isbn
 	for _, testCase := range testCases {
-		observed, err := exec.Command("go", "run", "isbn.go", testCase.input).Output()
-		if err != nil {
-			t.Errorf("CLI exec command failed for input='%s'",testCase.input)
-			continue
-		}
-		expected := "the given input '" + testCase.input + "' to be expected an isbn is: "
-		if testCase.expected {
-			expected += "valid"
+		func(testCase struct {
+			input       string
+			expected    bool
+			description string
+		}) {
+			t.Run(testCase.description, func(t *testing.T) {
+				t.Parallel()
+				observed, err := exec.Command("go", "run", "isbn.go", testCase.input).Output()
+				if err != nil {
+					t.Errorf("CLI exec command failed for input='%s'", testCase.input)
+					return
+				}
+				expected := "the given input '" + testCase.input + "' to be expected an isbn is: "
+				if testCase.expected {
+					expected += "valid"
+				} else {
+					expected += "invalid"
+				}
+				if strings.TrimSpace(string(observed)) != expected {
+					t.Errorf("CLI input='%s', observed='%s\n', expected='%s' - description: %s", testCase.input, observed, expected, testCase.description)
+				}
+			})
+		}(testCase)
+	}
+}
+
+func TestCliFileInput(t *testing.T) {
+	
+	// create test content and expected output
+	csvContent := ""
+	expected := ""
+	for _,testCase := range testCases {
+		if testCase.input == "" {
+			csvContent += fmt.Sprintf("\"\"\n")
 		} else {
-			expected += "invalid"
+			csvContent += fmt.Sprintf("%s\n",testCase.input)
 		}
-		if strings.TrimSpace(string(observed)) != expected {
-			t.Errorf("CLI input='%s', observed='%s\n', expected='%s' - description: %s", testCase.input, observed, expected, testCase.description)
-		}
+		expected += fmt.Sprintf("%s;%t;\n",testCase.input,testCase.expected)
+	}
+	// create test file
+	fileName := "input.tmp.csv"
+	f, err := os.Create(fileName)
+	if err != nil {
+		t.Errorf("can not create test file='%s'", fileName)
+	}
+	defer f.Close()
+	// write test content
+	amount, err := f.WriteString(csvContent)
+	if err != nil {
+		t.Errorf("can not write in test file='%s', amount='%d'", fileName, amount)
+	}
+	f.Sync()
+
+	// run cli command
+	observed, err := exec.Command("go", "run", "isbn.go", "-f", fileName).Output()
+	
+	if string(observed) != expected {
+		t.Errorf("CLI file='%s', observed='%s', expected='%s'", fileName, observed, expected)
 	}
 }

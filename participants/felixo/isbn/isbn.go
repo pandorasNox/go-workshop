@@ -1,37 +1,63 @@
 package main
 
 import (
+	"bufio"
+	"encoding/csv"
+	"flag"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"strconv"
 )
 
-// go run isbn.go "123456789"
-// output:
-// the given input '123456789' to expected an isbn is: valid
-
-// go run isbn.go -f "path/to/file"
-//
-// input (isbns.csv):
-// 123456789
-// 123456789X
-// ""
-// 3598215088
-//
-// output:
-// 123456789; false;
-// 123456789X; true;
-// ; false;
-// 3598215088; true;
 func main() {
-	argsWithoutProg := os.Args[1:]
 
-	if len(argsWithoutProg) != 1 {
+	expectFile := flag.Bool("f", false, "use csv file as input instead")
+	flag.Parse()
+
+	if len(flag.Args()) != 1 {
 		log.Fatal("argument missmatch, only one argument supported")
 	}
 
-	isbnCandidate := argsWithoutProg[0]
+	if *expectFile {
+		handleCsvMode()
+		return
+	}
+
+	handleInlineMode()
+}
+
+func handleCsvMode() {
+	fileName := flag.Arg(0)
+	csvfile, err := os.Open(fileName)
+	defer csvfile.Close()
+	if err != nil {
+		log.Fatalln("Couldn't open the csv file", err)
+	}
+
+	r := csv.NewReader(bufio.NewReader(csvfile))
+
+	// Iterate through the records
+	result := ""
+	for {
+		// Read each record from csv
+		record, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		// validate input
+		isValid := IsValidISBN(record[0])
+		result += fmt.Sprintf("%s;%t;\n", record[0], isValid)
+	}
+	fmt.Print(result)
+}
+
+func handleInlineMode(){
+	isbnCandidate := flag.Arg(0)
 
 	isValid := IsValidISBN(isbnCandidate)
 	if isValid {
