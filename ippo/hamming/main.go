@@ -24,7 +24,7 @@ func calcHamming(inS1 string, inS2 string) (int, error) {
 	inS2Ru := []rune(inS2)
 
 	if len(inS1Ru) != len(inS2Ru) {
-		return -1, errors.New("FAILED")
+		return 0, errors.New("FAILED")
 	}
 
 	//calc
