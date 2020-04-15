@@ -31,6 +31,13 @@ func runeExample() {
 		}
 		fmt.Printf("index: %d | rune: %v,%s\n", i, singleRune, string(singleRune))
 	}
+
+	// s := "abc" // => a - 0 ; b - 1; c - 2
+	// slii := []int{1,5,8} // 1 - 0; 5 - 1; 8 - 2
+	// // for _,_ := range s {
+	// for i,v := range slii {
+	// 	//execute code
+	// }
 }
 
 func stringExampleOne() {

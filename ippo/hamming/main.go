@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	fmt.Println(calcHamming("Ü", "a"))
+	fmt.Println(calcHamming("AA", "A"))
 }
 
 func calcHamming(inS1 string, inS2 string) (int, error) {
@@ -24,10 +24,21 @@ func calcHamming(inS1 string, inS2 string) (int, error) {
 	inS2Ru := []rune(inS2)
 
 	if len(inS1Ru) != len(inS2Ru) {
-		return 0, errors.New("FAILED")
+		return -1, errors.New("FAILED")
 	}
 
 	//calc
+	difference := 0
+	for i := range inS1Ru {
+		if inS1Ru[i] != inS2Ru[i] {
+			difference++
+		}
+	}
 
-	return 0, nil
+	return difference, nil
 }
+
+// else {
+// 	difference = difference + 0
+// 	difference += 0
+// }
