@@ -5,9 +5,19 @@ write a cli timer
 e.g.
 
 ```
-timer 10
+go run main.go 10
+timer ended after 10 seconds
 ```
 - will wait 10 seconds
+
+- todo
+  - notify, yields messages after x seconds to the cli, has to be lower than the given timer seconds, can be multply 
+  ```
+  go run main.go -n 3 -n 6 10
+  3 seconds over
+  6 seconds over
+  timer ended after 10 seconds
+  ```
 
 
 ## extended
