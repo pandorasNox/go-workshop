@@ -4,9 +4,10 @@
 - {} can be used to create isolated block scope
 
 ## loops (for)
-- two types
+- three types
     - `for i`
     - `for range`
+    - `for true {}` / just `for {}`
 - semicolons only in places such as for loop clauses
   - separate the initializer, condition, and continuation elements
 
@@ -31,3 +32,6 @@
   - function scope, anonymous functions are excluded from scope
   - used to move execution to the labeled statement
   - label IS required
+
+## defer
+todo
