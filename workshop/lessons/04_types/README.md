@@ -23,3 +23,6 @@
   - `||`
   - `!`
 
+## functions
+todo
+- maybe put this in the new lesson 05 which will be about functions
