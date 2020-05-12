@@ -10,8 +10,8 @@ func TestPangram(t *testing.T) {
 		expectedRes  bool
 	}{
 		{"the quick brown fox jumps over the lazy dog", true},
-		{"Shaw, those twelve beige hooks are joined if I patch a young, gooey mouth", true},
-		{"Are those shy Eurasian footwear, cowboy chaps, or jolly earthmoving headgear", true},
+		{"Shaw, those twelve beige hooks are joined if I patch a young, gooey mouth", false},
+		{"Are those shy Eurasian footwear, cowboy chaps, or jolly earthmoving headgear", false},
 		{"My ex pub quiz crowd gave joyful thanks", true},
 		{"A wizard’s job is to vex chumps quickly in fog", true},
 		{"Hello world", false},
