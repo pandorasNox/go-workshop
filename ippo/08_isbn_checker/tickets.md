@@ -37,7 +37,7 @@ the given input '3-598-21508-8' is valid
 - returns true for valid ISBN-10
 - your test is passing
 
-### 1.3 subtask
+### 1.3 subtask  (√)
 - add ability to pass a string from cli to the programm
 - programm returns the passed string and if this string is a valid ISBN
 ```

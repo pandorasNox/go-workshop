@@ -2,27 +2,28 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 	"unicode"
 )
 
+// flag.NArg()
+// flag.Args()
 func main() {
+	flag.Parse()
 
 	//argsWithProg := os.Args
-	argsWithoutProg := os.Args[1:]
 
-	if len(argsWithoutProg) > 1 {
+	if flag.NArg() > 1 {
 		log.Fatal("Argument count mismatch, only one argument allowed")
 	}
 
-	// fmt.Println(argsWithoutProg[0])
+	input := flag.Args()[0]
 
-	input := argsWithoutProg[0]
-	// fmt.Println("The input '", input, "' is valid ISBN", IsValidISBN(input))
+	// // fmt.Println("The input '", input, "' is valid ISBN", IsValidISBN(input))
 	fmt.Printf("The input '%s' is valid ISBN: %t \n", input, IsValidISBN(input))
 }
 
