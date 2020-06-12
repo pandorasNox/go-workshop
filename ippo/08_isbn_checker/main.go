@@ -3,13 +3,25 @@ package main
 import (
 	"errors"
 	"fmt"
+	"log"
+	"os"
 	"strconv"
 	"strings"
 	"unicode"
 )
 
 func main() {
-	input := "3-598-21508-8"
+
+	//argsWithProg := os.Args
+	argsWithoutProg := os.Args[1:]
+
+	if len(argsWithoutProg) > 1 {
+		log.Fatal("Argument count mismatch, only one argument allowed")
+	}
+
+	// fmt.Println(argsWithoutProg[0])
+
+	input := argsWithoutProg[0]
 	// fmt.Println("The input '", input, "' is valid ISBN", IsValidISBN(input))
 	fmt.Printf("The input '%s' is valid ISBN: %t \n", input, IsValidISBN(input))
 }
