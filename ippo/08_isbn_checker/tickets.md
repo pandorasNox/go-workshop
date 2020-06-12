@@ -26,23 +26,52 @@ the given input '3-598-21508-8' is valid
 ### questions
 - What is the first thing to do?
 
-### 1.0 subtask
+### 1.0 subtask  (√)
 - √
 
-### 1.1 subtask
+### 1.1 subtask  (√)
 - write a test
 
-### 1.2 subtask
+### 1.2 subtask  (√)
 - write a function which accepts as input a string
 - returns true for valid ISBN-10
 - your test is passing
 
-### 1.2 subtask
+### 1.3 subtask
 - add ability to pass a string from cli to the programm
 - programm returns the passed string and if this string is a valid ISBN
+```
+$ go run . "123456789"
 
+The input '123456789' is valid ISBN: true
+```
 
+### 1.4 subtask
+- allow cli prog to accept csv file as input
+- outputs a csv file with mapping isbn to if its valid
+e.g.
 
+inputFile:
+```
+123456789
+123
+
+3-598-21508-8
+```
+
+cmd:
+```
+$ go run . -f "isbn.csv"
+
+123456789, true
+123, false
+, false
+3-598-21508-8, true
+```
+
+### 1.5 subtask
+- build it as a binary
+- execute it like `isbnchecker ""`
 
 
 
