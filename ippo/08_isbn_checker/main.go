@@ -10,12 +10,28 @@ import (
 	"unicode"
 )
 
+// cmd ... --name=wagner
+// name := flag.String("name", "", "name of person")
+
+// cmd --isbn="123456789"
+// name := flag.String("isbn", "", "isbn to be validated")
+
 // flag.NArg()
 // flag.Args()
 func main() {
+	isFile := flag.Bool("f", false, "accept path to csv file as argument")
 	flag.Parse()
 
+	fmt.Println("DEBUG - isFile: ", *isFile)
+
 	//argsWithProg := os.Args
+
+	//check arguments are not 0
+	//...
+
+	if flag.NArg() == 0 {
+		log.Fatal("No argument given")
+	}
 
 	if flag.NArg() > 1 {
 		log.Fatal("Argument count mismatch, only one argument allowed")
