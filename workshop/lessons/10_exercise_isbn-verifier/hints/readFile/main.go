@@ -32,7 +32,13 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf(record[0], record[1])
+
+		fmt.Println(record)
+		//out: [1, hello, 2020-05]
+
+		fmt.Println(record[0], record[1])
+		fmt.Println("")
+		//out: 1 hello
 	}
 
 	fmt.Println("finish")

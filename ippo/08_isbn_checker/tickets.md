@@ -46,7 +46,7 @@ $ go run . "123456789"
 The input '123456789' is valid ISBN: true
 ```
 
-### 1.4 subtask
+### 1.4 subtask   (√)
 - allow cli prog to accept csv file as input
 - outputs a csv file with mapping isbn to if its valid
 e.g.
@@ -61,7 +61,7 @@ inputFile:
 
 cmd:
 ```
-$ go run . -f "isbn.csv"
+$ go run . -f "input.csv"
 
 123456789, true
 123, false

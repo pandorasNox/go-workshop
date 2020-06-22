@@ -1,10 +1,14 @@
 package main
 
 import (
+	"bufio"
+	"encoding/csv"
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 	"unicode"
@@ -22,8 +26,6 @@ func main() {
 	isFile := flag.Bool("f", false, "accept path to csv file as argument")
 	flag.Parse()
 
-	fmt.Println("DEBUG - isFile: ", *isFile)
-
 	//argsWithProg := os.Args
 
 	//check arguments are not 0
@@ -37,10 +39,56 @@ func main() {
 		log.Fatal("Argument count mismatch, only one argument allowed")
 	}
 
+	//firstAndLastArgument
 	input := flag.Args()[0]
 
-	// // fmt.Println("The input '", input, "' is valid ISBN", IsValidISBN(input))
-	fmt.Printf("The input '%s' is valid ISBN: %t \n", input, IsValidISBN(input))
+	//hande the flag ...
+	if *isFile == false {
+		// // fmt.Println("The input '", input, "' is valid ISBN", IsValidISBN(input))
+		fmt.Printf("The input '%s' is valid ISBN: %t \n", input, IsValidISBN(input))
+	} else {
+		//...have a path to a file
+		// file contains zero or multiple lines
+		// each line contains a strings, IsValidISBN func must check every string if it's ISBN or not
+
+		csvfile, err := os.Open(input)
+		if err != nil {
+			log.Fatalln("Couldn't open the csv file", err)
+		}
+
+		// Parse the file
+		// r := csv.NewReader(csvfile)
+		r := csv.NewReader(bufio.NewReader(csvfile))
+
+		// Iterate through the records
+		for {
+			// Read each record from csv
+			record, err := r.Read()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			//fmt.Println(record)
+			//out: [1, hello, 2020-05]
+
+			// fmt.Println(record[0])
+			// fmt.Println("")
+			//out: 1 hello
+
+			fmt.Printf("%s, %t \n", record[0], IsValidISBN(record[0]))
+			/*
+			   123456789, true
+			   123, false
+			   , false
+			   3-598-21508-8, true
+			*/
+		}
+
+	}
+
 }
 
 // IsValidISBN returns ...
@@ -50,14 +98,14 @@ func IsValidISBN(isbn string) bool {
 	isbn2 := []rune(isbn1)
 
 	if len(isbn2) != 10 {
-		fmt.Println("to long")
+		// fmt.Println("expected given input to be length of 10 letters")
 		return false
 	}
 
 	//check first 9 symbols are digits
 	for i := 0; i < 9; i++ {
 		if !unicode.IsDigit(isbn2[i]) {
-			fmt.Println("the first 9 has to be digits")
+			// fmt.Println("the first 9 has to be digits")
 			return false
 		}
 	}
@@ -69,7 +117,7 @@ func IsValidISBN(isbn string) bool {
 		//if !(unicode.IsDigit(isbn2[lastElem]) || find(isbn2[lastElem], bla)) {
 
 		//fmt.Println("last elem:", isbn2[lastElem], unicode.IsDigit(isbn2[lastElem]))
-		fmt.Println("the last has to be digits or x or X")
+		// fmt.Println("the last has to be digits or x or X")
 		return false
 	}
 
