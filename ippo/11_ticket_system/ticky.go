@@ -1,12 +1,13 @@
 package main
 
 import (
+	"os/user"
+
 	cli "github.com/urfave/cli/v2"
 	// "ticky/pkg/ohmy"
 	"fmt"
 	"log"
 	"os"
-	"os/user"
 )
 
 func main() {
@@ -22,31 +23,48 @@ func main() {
 				Name:    "init",
 				Aliases: []string{"i"},
 				Usage:   "initialize filesystem (`.ticky`, e.g. `~/.ticky`) and `.metadata` config",
-				Action:  func(c *cli.Context) error {
-							if _, err := os.Stat("/Users/ippo/.ticky"); err != nil {
-								if os.IsNotExist(err) {
-									fmt.Println("init task: ")
-								} else {
-									fmt.Println("init task: 2 ")
-								}
-							}
+				Action: func(c *cli.Context) error {
+					usr, err := user.Current()
+					if err != nil {
+						// log.Fatal( err )
+						return err
+					} //homework, check if the .ticky dir exist and if not create it
+					// fmt.Println("homedir:", usr.HomeDir)
+
+					_, err = os.Stat(usr.HomeDir + "/.ticky")
+					if os.IsNotExist(err) {
+						log.Print("Folder `.ticky` does not exist, initialize filesystem")
+						os.MkdirAll(usr.HomeDir+"/.ticky", os.FileMode(0755))
+					} else {
+						log.Println("Folder exists")
 					}
-					//usr, err := user.Current()
-					//if err != nil {
-					//	// log.Fatal( err )
-					//	return err
-					//}  //homework, check if the .ticky dir exist and if not create it
-					//
-					// fmt.Println( "homedir:", usr.HomeDir )
-					//
-					//// fmt.Println("init task: ", c.Args().First())
-					//return nil
+
+					_, err = os.Create(usr.HomeDir + "/.ticky" + "/.metadata.json")
+					if err != nil {
+						log.Fatal(err)
+					}
+					return nil
+				},
+			},
+		},
+	}
+	//usr, err := user.Current()
+	//if err != nil {
+	//	// log.Fatal( err )
+	//	return err
+	//}  //homework, check if the .ticky dir exist and if not create it
+	//
+	// fmt.Println( "homedir:", usr.HomeDir )
+	//
+	//// fmt.Println("init task: ", c.Args().First())
+	//return nil
 	err := app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}
+}
 
-	// fmt.Println(ohmy.Add(4,6))
+// fmt.Println(ohmy.Add(4,6))
 
 //we need smt like `ticky init` to create the basic setup (directory, metadata file etc)
 // `$ ticky` will check if the besic setup exists
@@ -65,6 +83,6 @@ func main() {
 // solutions: `json` or `yaml`
 
 // myvar := func() {
-	// 	fmt.Println("dsfsdf")
-	// }
-	// myvar()
+// 	fmt.Println("dsfsdf")
+// }
+// myvar()
