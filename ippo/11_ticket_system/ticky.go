@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"os/user"
 
 	cli "github.com/urfave/cli/v2"
@@ -10,7 +12,54 @@ import (
 	"os"
 )
 
+type Metadata struct {
+	AmountOfTickets int
+	Tickets         []Ticket
+}
+type Ticket struct {
+	ID          int    `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+}
+
+// .metadata.json:
+// write the input of the cmd line
+
+// $ ticky create "Monday tasks" "Go supermarket"
+// .metadata.json:
+// [
+//     {
+//         "id": 0,
+//         "title": "init title",
+//         "description": "init description"
+//     },
+//     {
+//         "id": 1,
+//         "title": "Monday tasks",
+//         "description": "Go supermarket"
+//     }
+// ]
+
+// {
+//  amountOfTickets: 2
+// 	tickets: [
+// 		{
+// 			"id": 0,
+// 			"title": "init title",
+// 			"description": "init description"
+// 		},
+// 		{
+// 			"id": 1,
+// 			"title": "Monday tasks",
+// 			"description": "Go supermarket"
+// 		}
+// 	]
+// }
+
 func main() {
+	jtest()
+	return
+
 	app := &cli.App{
 		Name:  "ticky",
 		Usage: "ticky is a ticket system...",
@@ -28,8 +77,7 @@ func main() {
 					if err != nil {
 						// log.Fatal( err )
 						return err
-					} //homework, check if the .ticky dir exist and if not create it
-					// fmt.Println("homedir:", usr.HomeDir)
+					}
 
 					_, err = os.Stat(usr.HomeDir + "/.ticky")
 					if os.IsNotExist(err) {
@@ -48,20 +96,66 @@ func main() {
 			},
 		},
 	}
-	//usr, err := user.Current()
-	//if err != nil {
-	//	// log.Fatal( err )
-	//	return err
-	//}  //homework, check if the .ticky dir exist and if not create it
-	//
-	// fmt.Println( "homedir:", usr.HomeDir )
-	//
-	//// fmt.Println("init task: ", c.Args().First())
-	//return nil
 	err := app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func jtest() {
+	type Ticket struct {
+		ID          int    `json:"id"`
+		Title       string `json:"title"`
+		Description string `json:"description"`
+	}
+
+	ticket0 := Ticket{
+		ID:          1,
+		Title:       "a title",
+		Description: "a description",
+	}
+
+	// ticket0.write("file/path/test.json")
+	// ticket0.read("file/path/test.json")
+
+	// fmt.Println(ticket0)
+	file, _ := json.MarshalIndent(ticket0, "", " ")
+	_ = ioutil.WriteFile("test.json", file, 0644)
+
+	//check open json file
+	jsonFile, err := os.Open("test.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("Successfully Opened test.json")
+	readedTicket := Ticket{}
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	err = json.Unmarshal(byteValue, &readedTicket)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("readed file: ", readedTicket)
+	defer jsonFile.Close()
+
+	//-------------------------------------------------
+
+	var jsonText = []byte(`[
+	    {"id": 1, "title": "a title", "description": "description"}
+	]`)
+	var tickets []Ticket
+
+	err = json.Unmarshal([]byte(jsonText), &tickets)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	tickets = append(tickets, Ticket{ID: 2, Title: "a new Title", Description: "a new description"})
+
+	fmt.Println("tickets: ", tickets)
+
+	file2, _ := json.MarshalIndent(tickets, "", " ")
+	_ = ioutil.WriteFile("test2.json", file2, 0644)
+
 }
 
 // fmt.Println(ohmy.Add(4,6))
