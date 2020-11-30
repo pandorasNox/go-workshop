@@ -13,9 +13,11 @@ import (
 )
 
 type Metadata struct {
+	IdCounter       uint32
 	AmountOfTickets int
 	Tickets         []Ticket
 }
+
 type Ticket struct {
 	ID          int    `json:"id"`
 	Title       string `json:"title"`
@@ -85,11 +87,25 @@ func main() {
 						os.MkdirAll(usr.HomeDir+"/.ticky", os.FileMode(0755))
 					} else {
 						log.Println("Folder exists")
+						return nil
 					}
 
 					_, err = os.Create(usr.HomeDir + "/.ticky" + "/.metadata.json")
 					if err != nil {
 						log.Fatal(err)
+					}
+					initMetadata := Metadata{
+						IdCounter:       0,
+						AmountOfTickets: 0,
+						Tickets:         []Ticket{},
+					}
+					metadataFile, err := json.MarshalIndent(initMetadata, "", " ")
+					if err != nil {
+						log.Fatalf("failed marshaling metadata %s", err)
+					}
+					err = ioutil.WriteFile(usr.HomeDir+"/.ticky"+"/.metadata.json", metadataFile, 0644)
+					if err != nil {
+						log.Fatalf("failed writing metadata file %s", err)
 					}
 					return nil
 				},
