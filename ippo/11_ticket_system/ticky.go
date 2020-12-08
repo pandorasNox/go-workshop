@@ -19,48 +19,14 @@ type Metadata struct {
 }
 
 type Ticket struct {
-	ID          int    `json:"id"`
+	ID          uint32 `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 }
 
-// .metadata.json:
-// write the input of the cmd line
-
-// $ ticky create "Monday tasks" "Go supermarket"
-// .metadata.json:
-// [
-//     {
-//         "id": 0,
-//         "title": "init title",
-//         "description": "init description"
-//     },
-//     {
-//         "id": 1,
-//         "title": "Monday tasks",
-//         "description": "Go supermarket"
-//     }
-// ]
-
-// {
-//  amountOfTickets: 2
-// 	tickets: [
-// 		{
-// 			"id": 0,
-// 			"title": "init title",
-// 			"description": "init description"
-// 		},
-// 		{
-// 			"id": 1,
-// 			"title": "Monday tasks",
-// 			"description": "Go supermarket"
-// 		}
-// 	]
-// }
-
 func main() {
-	jtest()
-	return
+	//	jtest()
+	//	return
 
 	app := &cli.App{
 		Name:  "ticky",
@@ -110,6 +76,75 @@ func main() {
 					return nil
 				},
 			},
+			{
+				Name:  "create",
+				Usage: "create a ticket with a title and a description, e.g. `ticky create \"my title\" \"my description\"`",
+				Action: func(c *cli.Context) error {
+					fmt.Println("createing ticket...")
+					usr, err := user.Current()
+					if err != nil {
+						// log.Fatal( err )
+						return err
+					}
+					// check metadata exist + message if not
+					jsonFile, err := os.Open(usr.HomeDir + "/.ticky" + "/.metadata.json")
+					if err != nil {
+						return fmt.Errorf("please try to run ticky init: %s", err)
+					}
+					defer jsonFile.Close()
+
+					// handle arguments
+					//fmt.Printf("Hello %v \n", c.NArg())
+					//https://godoc.org/gopkg.in/urfave/cli.v2#Context.NArg
+					if c.NArg() != 2 {
+						return fmt.Errorf("ticky create command accepts 2 args")
+					}
+					// fmt.Println("arg0", c.Args().Get(0), "arg1", c.Args().Get(1))
+					// expect two args, if not throw message pls add 2 args or add...main
+					// take the two args and map them to title and description var
+
+					// read metadata.json into metadata golang struct
+					readedMetadata := Metadata{}
+					rawFileContentAsByteSlice, _ := ioutil.ReadAll(jsonFile)
+					err = json.Unmarshal(rawFileContentAsByteSlice, &readedMetadata)
+					if err != nil {
+						return fmt.Errorf("Cannot parse metadata file: %s", err)
+					}
+					// fmt.Println("readed file: ", readedMetadata)
+
+					// print them back to stdout
+
+					//// error handling parse
+					// increment IdCounter _> get the newest tickt id for the ticket we want to create in a second
+					//// keep the IdCOunter in memory => in a varibale
+					incrementedIDCount := readedMetadata.IdCounter + 1
+					readedMetadata.IdCounter = incrementedIDCount
+					readedMetadata.AmountOfTickets = readedMetadata.AmountOfTickets + 1
+
+					// fmt.Println("incrementedIdCount", incrementedIDCount)
+					// create the ticket variable instance with incremented IdCOunter variable with title and description
+					newTicket := Ticket{
+						ID:          incrementedIDCount,
+						Title:       c.Args().Get(0),
+						Description: c.Args().Get(1),
+					}
+					readedMetadata.Tickets = append(readedMetadata.Tickets, newTicket)
+
+					fmt.Println("readedMetadata", readedMetadata)
+
+					// write new ticket {write metadata file and new ticket because is the same file}
+					metadataFile, err := json.MarshalIndent(readedMetadata, "", " ")
+					if err != nil {
+						return fmt.Errorf("Cannot parse metadata to json: %s", err)
+					}
+					err = ioutil.WriteFile(usr.HomeDir+"/.ticky"+"/.metadata.json", metadataFile, 0644)
+					if err != nil {
+						return fmt.Errorf("Cannot write to metadata file: %s", err)
+					}
+
+					return nil
+				},
+			},
 		},
 	}
 	err := app.Run(os.Args)
@@ -143,6 +178,7 @@ func jtest() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer jsonFile.Close() // => puts it on defer stack, the defer stack runs after the current function finished
 	fmt.Println("Successfully Opened test.json")
 	readedTicket := Ticket{}
 	byteValue, _ := ioutil.ReadAll(jsonFile)
@@ -151,7 +187,7 @@ func jtest() {
 		fmt.Println(err)
 	}
 	fmt.Println("readed file: ", readedTicket)
-	defer jsonFile.Close()
+	// jsonFile.Close()
 
 	//-------------------------------------------------
 
@@ -196,3 +232,6 @@ func jtest() {
 // 	fmt.Println("dsfsdf")
 // }
 // myvar()
+
+// .metadata.json:
+// write the input of the cmd line
