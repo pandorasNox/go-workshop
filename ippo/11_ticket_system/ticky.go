@@ -145,6 +145,62 @@ func main() {
 					return nil
 				},
 			},
+			{
+				Name:  "list",
+				Usage: "list all tickets with title, e.g. `ticky list`",
+				Action: func(c *cli.Context) error {
+					//fmt.Println("listing tickets...")
+					usr, err := user.Current()
+					if err != nil {
+						// log.Fatal( err )
+						return err
+					}
+
+					jsonFile, err := os.Open(usr.HomeDir + "/.ticky" + "/.metadata.json")
+					if err != nil {
+						return fmt.Errorf("please try to run ticky init: %s", err)
+					}
+					defer jsonFile.Close()
+
+					if c.NArg() != 0 {
+						return fmt.Errorf("ticky list command does not support any args")
+					}
+
+					readedMetadata := Metadata{}
+					rawFileContentAsByteSlice, _ := ioutil.ReadAll(jsonFile)
+					err = json.Unmarshal(rawFileContentAsByteSlice, &readedMetadata)
+					if err != nil {
+						return fmt.Errorf("Cannot parse metadata file: %s", err)
+					}
+
+					neededTicketInfos := []struct {
+						id    uint32
+						title string
+					}{
+						//	{id: 5, title: "title"}, now empty
+					}
+					// itterate with range
+					for _, ticket := range readedMetadata.Tickets {
+						ticketInfo := struct {
+							id    uint32
+							title string
+						}{
+							ticket.ID,
+							ticket.Title,
+						}
+						neededTicketInfos = append(neededTicketInfos, ticketInfo)
+
+					}
+
+					fmt.Println("id title")
+					for _, ticketInfo := range neededTicketInfos {
+						fmt.Println(ticketInfo.id, ticketInfo.title)
+					}
+					return nil
+				},
+
+				// read .metada.json file, extract id and title info, stdout
+			},
 		},
 	}
 	err := app.Run(os.Args)
