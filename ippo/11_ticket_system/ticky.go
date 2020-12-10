@@ -173,29 +173,13 @@ func main() {
 						return fmt.Errorf("Cannot parse metadata file: %s", err)
 					}
 
-					neededTicketInfos := []struct {
-						id    uint32
-						title string
-					}{
-						//	{id: 5, title: "title"}, now empty
-					}
-					// itterate with range
-					for _, ticket := range readedMetadata.Tickets {
-						ticketInfo := struct {
-							id    uint32
-							title string
-						}{
-							ticket.ID,
-							ticket.Title,
-						}
-						neededTicketInfos = append(neededTicketInfos, ticketInfo)
-
-					}
-
 					fmt.Println("id title")
-					for _, ticketInfo := range neededTicketInfos {
-						fmt.Println(ticketInfo.id, ticketInfo.title)
+
+					for _, actualCurrentElementOfThisIteration := range readedMetadata.Tickets {
+						//	fmt.Println(actualCurrentElementOfThisIteration)
+						fmt.Println(actualCurrentElementOfThisIteration.ID, actualCurrentElementOfThisIteration.Title)
 					}
+
 					return nil
 				},
 
