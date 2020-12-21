@@ -57,3 +57,5 @@ $ ticky list
 
 ```
 
+## Future implementaitions:
+$ ticky show command can show more than one ticket details.

@@ -141,7 +141,6 @@ func main() {
 					if err != nil {
 						return fmt.Errorf("Cannot write to metadata file: %s", err)
 					}
-
 					return nil
 				},
 			},
@@ -184,6 +183,46 @@ func main() {
 				},
 
 				// read .metada.json file, extract id and title info, stdout
+			},
+			{
+				Name:  "show",
+				Usage: "shows all details of a specific ticket given by id, e.g. `ticky show <id>`",
+				Action: func(c *cli.Context) error {
+					//fmt.Println("listing tickets...")
+					usr, err := user.Current()
+					if err != nil {
+						// log.Fatal( err )
+						return err
+					}
+
+					if c.NArg() != 1 {
+						return fmt.Errorf("ticky show command supports exact one args")
+					}
+					maybeSearchID := c.Args().Get(0)
+					//convert maybeSearchID to uint32
+					fmt.Println(maybeSearchID)
+
+					jsonFile, err := os.Open(usr.HomeDir + "/.ticky" + "/.metadata.json")
+					if err != nil {
+						return fmt.Errorf("please try to run ticky init: %s", err)
+					}
+					defer jsonFile.Close()
+
+					readedMetadata := Metadata{}
+					rawFileContentAsByteSlice, _ := ioutil.ReadAll(jsonFile)
+					err = json.Unmarshal(rawFileContentAsByteSlice, &readedMetadata)
+					if err != nil {
+						return fmt.Errorf("Cannot parse metadata file: %s", err)
+					}
+
+					// for i, currentTicket := range readedMetadata.Tickets {
+					//		if currentTicket.ID == maybeSearchID {
+					//			fmt.Prin
+					//		}
+					//}
+
+					return nil
+				},
 			},
 		},
 	}
