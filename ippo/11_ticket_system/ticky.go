@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os/user"
+	"strconv"
 
 	cli "github.com/urfave/cli/v2"
 	// "ticky/pkg/ohmy"
@@ -198,9 +199,11 @@ func main() {
 					if c.NArg() != 1 {
 						return fmt.Errorf("ticky show command supports exact one args")
 					}
-					maybeSearchID := c.Args().Get(0)
 					//convert maybeSearchID to uint32
-					fmt.Println(maybeSearchID)
+					givenCLIArg := c.Args().Get(0)
+					maybeSearchID64, _ := strconv.ParseUint(givenCLIArg, 10, 64)
+					maybeSearchID := uint32(maybeSearchID64)
+					//fmt.Printf("%T\n", maybeSearchID)
 
 					jsonFile, err := os.Open(usr.HomeDir + "/.ticky" + "/.metadata.json")
 					if err != nil {
@@ -214,13 +217,77 @@ func main() {
 					if err != nil {
 						return fmt.Errorf("Cannot parse metadata file: %s", err)
 					}
+					found := false
+					for _, currentTicket := range readedMetadata.Tickets {
+						if currentTicket.ID == maybeSearchID {
+							found = true
+							fmt.Println(currentTicket.Title, currentTicket.Description)
+						}
+					}
+					if found == false {
+						fmt.Println("This ticket does not exist")
+					}
+					return nil
+				},
+			},
+			{
+				Name:  "delete",
+				Usage: "delete the ticket given by id, e.g. `ticky delete <id>`",
+				Action: func(c *cli.Context) error {
+					usr, err := user.Current()
+					if err != nil {
+						// log.Fatal( err )
+						return err
+					}
+					if c.NArg() != 1 {
+						return fmt.Errorf("ticky delete command supports exact one args")
+					}
+					//convert maybeSearchID to uint32
+					givenCLIArg := c.Args().Get(0)
+					maybeSearchID64, _ := strconv.ParseUint(givenCLIArg, 10, 64)
+					maybeSearchID := uint32(maybeSearchID64)
 
-					// for i, currentTicket := range readedMetadata.Tickets {
-					//		if currentTicket.ID == maybeSearchID {
-					//			fmt.Prin
-					//		}
+					jsonFile, err := os.Open(usr.HomeDir + "/.ticky" + "/.metadata.json")
+					if err != nil {
+						return fmt.Errorf("please try to run ticky init: %s", err)
+					}
+					defer jsonFile.Close()
+
+					readedMetadata := Metadata{}
+					rawFileContentAsByteSlice, _ := ioutil.ReadAll(jsonFile)
+					err = json.Unmarshal(rawFileContentAsByteSlice, &readedMetadata)
+					if err != nil {
+						return fmt.Errorf("Cannot parse metadata file: %s", err)
+					}
+					// "1st WAY""
+					//found := false
+					//for _, currentTicket := range readedMetadata.Tickets {
+					//	indexIDToBeRemoved := findIndexForTicketID(readedMetadata.Tickets, currentTicket.ID)
+					//	if findIndexForTicketID(readedMetadata.Tickets, currentTicket.ID) == findIndexForTicketID(readedMetadata.Tickets, maybeSearchID) {
+					//		found = true
+					//		readedMetadata.Tickets = remove(readedMetadata.Tickets, indexIDToBeRemoved)
+					//		//fmt.Println(readedMetadata.Tickets)
+					//	}
 					//}
-
+					//if found == false {
+					//	fmt.Println("This ticket does not exist")
+					//}
+					// "2nd WAY"
+					indexForSearchedTicketID := findIndexForTicketID(readedMetadata.Tickets, maybeSearchID)
+					if indexForSearchedTicketID == -1 {
+						return fmt.Errorf("This ticket does not exist %s", "")
+					}
+					newTicketList := remove(readedMetadata.Tickets, indexForSearchedTicketID)
+					readedMetadata.Tickets = newTicketList
+					// write new ticket {write metadata file and new ticket because is the same file}
+					metadataFile, err := json.MarshalIndent(readedMetadata, "", " ")
+					if err != nil {
+						return fmt.Errorf("Cannot parse metadata to json: %s", err)
+					}
+					err = ioutil.WriteFile(usr.HomeDir+"/.ticky"+"/.metadata.json", metadataFile, 0644)
+					if err != nil {
+						return fmt.Errorf("Cannot write to metadata file: %s", err)
+					}
 					return nil
 				},
 			},
@@ -230,6 +297,20 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func remove(tickets []Ticket, indexOfTicketIDToBeRemoved int) []Ticket { //change uint32 to int!!!
+	return append(tickets[:indexOfTicketIDToBeRemoved], tickets[indexOfTicketIDToBeRemoved+1:]...) //... spread operator
+}
+
+// from the list of ticket we want to get the index of the ticket we are looking for. if we don't find it return -1
+func findIndexForTicketID(tickets []Ticket, ticketID uint32) (index int) {
+	for index, element := range tickets {
+		if element.ID == ticketID {
+			return int(index) //type casting
+		}
+	}
+	return -1
 }
 
 func jtest() {
