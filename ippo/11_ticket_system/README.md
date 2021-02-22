@@ -44,10 +44,11 @@ $ ticky delete 738245237
 > couldn't delete ticket, not exiting
 
 $ ticky update 1 "new title" "don't drink to much alcohole"
-> ticket with id 1 update
+> ticket with id 1 updated
 > title: new title
 > description:
 > don't drink to much alcohole
+
 
 $ ticky list
 > id title
@@ -59,3 +60,9 @@ $ ticky list
 
 ## Future implementaitions:
 $ ticky show command can show more than one ticket details.
+$ ticky update command:
+        a)shall first print out the original ticket title/description before modification (cancel option?)
+        b)takes only id argument and listening to keyboard for input e.g.: Current Title: blabla
+                                                                           New Title: ....
+                                                                           Current description: bloubla
+                                                                           New description: ....

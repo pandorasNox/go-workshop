@@ -291,6 +291,58 @@ func main() {
 					return nil
 				},
 			},
+			{
+				Name:  "update",
+				Usage: "update the ticket given by id and new title and description, e.g. `ticky update <id> \"New Title\" \"New Description\"` \n Notice: Use tickey show <id> to prevent updating wrong ticket",
+				Action: func(c *cli.Context) error {
+					usr, err := user.Current()
+					if err != nil {
+						return err
+					}
+
+					if c.NArg() != 3 {
+						return fmt.Errorf("ticky update command supports three args")
+					}
+					//convert maybeSearchID to uint32
+					givenCLIArg := c.Args().Get(0)
+					maybeSearchID64, _ := strconv.ParseUint(givenCLIArg, 10, 64)
+					maybeSearchID := uint32(maybeSearchID64)
+
+					newTitle := c.Args().Get(1)
+					newDescription := c.Args().Get(2)
+
+					jsonFile, err := os.Open(usr.HomeDir + "/.ticky" + "/.metadata.json")
+					if err != nil {
+						return fmt.Errorf("please try to run ticky init: %s", err)
+					}
+					defer jsonFile.Close()
+
+					readedMetadata := Metadata{}
+					rawFileContentAsByteSlice, _ := ioutil.ReadAll(jsonFile)
+					err = json.Unmarshal(rawFileContentAsByteSlice, &readedMetadata)
+					if err != nil {
+						return fmt.Errorf("Cannot parse metadata file: %s", err)
+					}
+
+					indexForSearchedTicketID := findIndexForTicketID(readedMetadata.Tickets, maybeSearchID)
+					if indexForSearchedTicketID == -1 {
+						return fmt.Errorf("This ticket does not exist %s", "")
+					}
+					readedMetadata.Tickets[indexForSearchedTicketID].Title = newTitle
+					readedMetadata.Tickets[indexForSearchedTicketID].Description = newDescription
+
+					// write new ticket {write metadata file and new ticket because is the same file}
+					metadataFile, err := json.MarshalIndent(readedMetadata, "", " ")
+					if err != nil {
+						return fmt.Errorf("Cannot parse metadata to json: %s", err)
+					}
+					err = ioutil.WriteFile(usr.HomeDir+"/.ticky"+"/.metadata.json", metadataFile, 0644)
+					if err != nil {
+						return fmt.Errorf("Cannot write to metadata file: %s", err)
+					}
+					return nil
+				},
+			},
 		},
 	}
 	err := app.Run(os.Args)
