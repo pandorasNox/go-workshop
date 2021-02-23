@@ -292,8 +292,8 @@ func main() {
 				},
 			},
 			{
-				Name:  "update",
-				Usage: "update the ticket given by id and new title and description, e.g. `ticky update <id> \"New Title\" \"New Description\"` \n Notice: Use tickey show <id> to prevent updating wrong ticket",
+				Name: "update",
+				Usage: "update the ticket given by id and new title and description, e.g.`ticky update <id> \"New Title\" \"New Description\"` \n 	Notice: Use tickey show <id> to prevent updating wrong ticket",
 				Action: func(c *cli.Context) error {
 					usr, err := user.Current()
 					if err != nil {
