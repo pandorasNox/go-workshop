@@ -59,6 +59,9 @@ $ ticky list
 ```
 
 ## Future implementaitions:
+$ ticky destruct: this command will remove all traces of ticky
+$ improve ticky create output, shows only new created ticket
+$ improve ticky show output, more beautiful
 $ ticky show command can show more than one ticket details.
 $ ticky update command:
         a)shall first print out the original ticket title/description before modification (cancel option?)
