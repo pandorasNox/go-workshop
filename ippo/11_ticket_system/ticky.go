@@ -343,6 +343,37 @@ func main() {
 					return nil
 				},
 			},
+			{
+				Name:  "purge",
+				Usage: "purge all ticky files",
+				Action: func(c *cli.Context) error {
+					usr, err := user.Current()
+					if err != nil {
+						return err
+					}
+
+					_ = usr
+					fmt.Print("Do you really want to purge ticky files? (Type Uppercase YES): ")
+					var input string
+					//fmt.Scanf("%f", &input)
+					_, err = fmt.Scanf("%s", &input)
+					if err != nil {
+						return err
+					}
+
+					if input != "YES" {
+						fmt.Printf("You are not sure if you want to delete all ticky files \n")
+						return nil
+					}
+
+					err = os.RemoveAll(usr.HomeDir + "/.ticky")
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					return nil
+				},
+			},
 		},
 	}
 	err := app.Run(os.Args)

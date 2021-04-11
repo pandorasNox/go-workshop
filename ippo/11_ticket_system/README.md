@@ -59,7 +59,7 @@ $ ticky list
 ```
 
 ## Future implementaitions:
-$ ticky destruct: this command will remove all traces of ticky
+$ ticky destruct: this command will remove all traces of ticky  √
 $ improve ticky create output, shows only new created ticket
 $ improve ticky show output, more beautiful
 $ ticky show command can show more than one ticket details.
